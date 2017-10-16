@@ -2,6 +2,7 @@ package com.google.developer.bugmaster.data;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,7 +13,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.developer.bugmaster.R;
+import com.google.developer.bugmaster.views.CircularTextView;
 import com.google.developer.bugmaster.views.DangerLevelView;
+
+import java.util.ArrayList;
 
 /**
  * RecyclerView adapter extended with project-specific required methods.
@@ -32,14 +36,16 @@ public class InsectRecyclerAdapter extends
 
     /* ViewHolder for each insect item */
     public class InsectHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-         TextView friendlyName, scientificName, dangerLevel;
-        DangerLevelView dangerLevelView;
+         TextView friendlyName, scientificName;
+        //DangerLevelView dangerLevelView;
+        CircularTextView circularTextView;
         public InsectHolder(View itemView) {
             super(itemView);
             friendlyName = (TextView) itemView.findViewById(R.id.friendlyName);
             scientificName = (TextView) itemView.findViewById(R.id.scientificName);
-            dangerLevel = (TextView) itemView.findViewById(R.id.text1);
-            dangerLevelView=(DangerLevelView)itemView.findViewById(R.id.avatar);
+          //  dangerLevel = (TextView) itemView.findViewById(R.id.text1);
+            circularTextView=(CircularTextView)itemView.findViewById(R.id.circularTextView);
+          //  dangerLevelView=(DangerLevelView)itemView.findViewById(R.id.avatar);
 
         }
 
@@ -74,19 +80,12 @@ public class InsectRecyclerAdapter extends
         String insectRImage = mCursor.getString(insectImage);
         int dangerlevelInt = mCursor.getInt(dangerlevel);
 
-        Log.i("Value","-------------   "+insectname);
-       String dangerString = "" + dangerlevelInt;
 
-
-        holder.dangerLevel.setText(dangerString+""+position);
 
         holder.friendlyName.setText(insectRName);
         holder.scientificName.setText(scienceRName);
-       // holder.dangerLevelView.setDangerLevel(dangerlevel);
-        holder.dangerLevelView.setText("HI");
-        holder.dangerLevelView.setTextColor(mContext.getResources().getColor(R.color.color_white));
-
-
+        holder.circularTextView.setSolidColor(getDangerLevelColor(dangerlevelInt));
+        holder.circularTextView.setText(""+dangerlevelInt);
     }
 
     @Override
@@ -114,20 +113,65 @@ public class InsectRecyclerAdapter extends
 
 
 
-    private int getDangerColor(int danger) {
+
+   private int getDangerColor(int danger) {
         int priorityColor = 0;
-        int[] colorDangerarray = mContext.getResources().getIntArray(R.array.dangerColors);
+       String colors[] = mContext.getResources().getStringArray(R.array.dangerColors);
+       ArrayList<Integer>colorList = new ArrayList<Integer>();
 
         switch(danger) {
-            case 1: priorityColor = ContextCompat.getColor(mContext, colorDangerarray[0]);
+            case 1: priorityColor = ContextCompat.getColor(mContext, colorList.get(0));
                 break;
-            case 2: priorityColor = ContextCompat.getColor(mContext, colorDangerarray[1]);
+            case 2: priorityColor = ContextCompat.getColor(mContext, colorList.get(1));
                 break;
-            case 3: priorityColor = ContextCompat.getColor(mContext, colorDangerarray[2]);
+            case 3: priorityColor = ContextCompat.getColor(mContext, colorList.get(2));
+                break;
+            case 4: priorityColor = ContextCompat.getColor(mContext, colorList.get(3));
+                break;
+            case 5: priorityColor = ContextCompat.getColor(mContext, colorList.get(0));
+                break;
+            case 6: priorityColor = ContextCompat.getColor(mContext, colorList.get(4));
+                break;
+            case 7: priorityColor = ContextCompat.getColor(mContext, colorList.get(5));
+                break;
+            case 8: priorityColor = ContextCompat.getColor(mContext, colorList.get(6));
+                break;
+            case 9: priorityColor = ContextCompat.getColor(mContext, colorList.get(8));
+                break;
+            case 10: priorityColor = ContextCompat.getColor(mContext, colorList.get(9));
                 break;
             default: break;
         }
         return priorityColor;
+    }
+
+    private String getDangerLevelColor(int danger){
+        String priorityColor = null;
+        String colors[] = mContext.getResources().getStringArray(R.array.dangerColors);
+        switch(danger) {
+            case 1: priorityColor = colors[0];
+                break;
+            case 2: priorityColor = colors[1];
+                break;
+            case 3: priorityColor = colors[2];
+                break;
+            case 4: priorityColor = colors[3];
+                break;
+            case 5: priorityColor = colors[4];
+                break;
+            case 6: priorityColor = colors[5];
+                break;
+            case 7: priorityColor = colors[6];
+                break;
+            case 8: priorityColor = colors[7];
+                break;
+            case 9: priorityColor = colors[8];
+                break;
+            case 10: priorityColor = colors[9];
+                break;
+            default: break;
+        }
+        return  priorityColor;
     }
 
 }
