@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.developer.bugmaster.R;
 import com.google.developer.bugmaster.views.CircularTextView;
@@ -46,11 +47,12 @@ public class InsectRecyclerAdapter extends
           //  dangerLevel = (TextView) itemView.findViewById(R.id.text1);
             circularTextView=(CircularTextView)itemView.findViewById(R.id.circularTextView);
           //  dangerLevelView=(DangerLevelView)itemView.findViewById(R.id.avatar);
-
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
+            Toast.makeText(mContext,"View Clicked"+getAdapterPosition(),Toast.LENGTH_SHORT).show();
         }
     }
 
